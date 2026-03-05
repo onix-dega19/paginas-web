@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curriculum - Desarrollador de Software</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin-bottom: 20px;
+            object-fit: cover;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .social-links a:hover {
+            transform: scale(1.2);
+        }
+
+        /* Content Section */
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        /* Resumen */
+        .resumen-text {
+            color: #555;
+            line-height: 1.8;
+            font-size: 1em;
+        }
+
+        /* Skills Section */
+        .skill-item {
+            margin-bottom: 20px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* Experiencia Laboral */
+        .job {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .job-title {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .job-company {
+            color: #667eea;
+            font-weight: 500;
+            margin: 5px 0;
+        }
+
+        .job-date {
+            color: #999;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .job-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .profile-photo {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <img src="avatar.avif" alt="Foto de Perfil" class="profile-photo">
+            <h1>delgadillo gutierrez onix</h1>
+            <p>Desarrollador de Software Full Stack</p>
+            <p style="font-size: 1em; opacity: 0.8;">📍 Ciudad, País</p>
+            
+            <!-- Redes Sociales -->
+            <div class="social-links">
+                <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Email"><i class="fas fa-envelope"></i></a>
+                <a href="#" title="Portfolio"><i class="fas fa-globe"></i></a>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Resumen -->
+            <section class="section">
+                <h2 class="section-title">Resumen Profesional</h2>
+                <p class="resumen-text">
+                    Desarrollador de software con 5+ años de experiencia creando aplicaciones web y móviles escalables. 
+                    Especializado en tecnologías modernas con pasión por escribir código limpio y eficiente. 
+                    Comprometido con el aprendizaje continuo y la entrega de soluciones de alta calidad.
+                </p>
+            </section>
+
+            <!-- Habilidades Técnicas -->
+            <section class="section">
+                <h2 class="section-title">Habilidades Técnicas</h2>
+                
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>JavaScript / TypeScript</span>
+                        <span>90%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>React / Vue.js</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>Python</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 80%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>Node.js / Express</span>
+                        <span>85%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 85%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>HTML / CSS</span>
+                        <span>95%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 95%;"></div>
+                    </div>
+                </div>
+
+                <div class="skill-item">
+                    <div class="skill-name">
+                        <span>Bases de Datos (SQL / NoSQL)</span>
+                        <span>80%</span>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 80%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experiencia Laboral -->
+            <section class="section">
+                <h2 class="section-title">Experiencia Laboral</h2>
+
+                <div class="job">
+                    <div class="job-title"><i class="fas fa-briefcase"></i> Desarrollador Senior</div>
+                    <div class="job-company">Tech Company Inc.</div>
+                    <div class="job-date">Enero 2022 - Presente</div>
+                    <div class="job-description">
+                        • Desarrollo de aplicaciones web full-stack utilizando React y Node.js<br>
+                        • Liderazgo de un equipo de 3 desarrolladores junior<br>
+                        • Implementación de mejores prácticas de desarrollo y code review
+                    </div>
+                </div>
+
+                <div class="job">
+                    <div class="job-title"><i class="fas fa-briefcase"></i> Desarrollador Full Stack</div>
+                    <div class="job-company">Digital Solutions Ltd.</div>
+                    <div class="job-date">Junio 2019 - Diciembre 2021</div>
+                    <div class="job-description">
+                        • Desarrollo de plataformas e-commerce con ReactJS<br>
+                        • Integración de APIs RESTful y pagos en línea<br>
+                        • Optimización de rendimiento y SEO
+                    </div>
+                </div>
+
+                <div class="job">
+                    <div class="job-title"><i class="fas fa-briefcase"></i> Desarrollador Junior</div>
+                    <div class="job-company">StartUp Innovadora</div>
+                    <div class="job-date">Enero 2019 - Mayo 2019</div>
+                    <div class="job-description">
+                        • Desarrollo de interfaces web responsivas<br>
+                        • Corrección de bugs y mantenimiento de código<br>
+                        • Participación en Code Reviews
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>

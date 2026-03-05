@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Productos - Geode Studio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #8a3ada;
+            background-color: #f9f9f9;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4f68c3 0%, #546cd8 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+        
+        nav h1 {
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        
+        nav a:hover {
+            opacity: 0.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #4f68c3;
+        }
+        
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .producto-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .producto-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .producto-card.seleccionado {
+            background: linear-gradient(135deg, #e8f4ff 0%, #f0e8ff 100%);
+            border: 3px solid #4f68c3;
+        }
+        
+        .producto-header {
+            background: linear-gradient(135deg, #6b9aff 0%, #b367e5 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .producto-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .producto-precio {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .producto-body {
+            padding: 1.5rem;
+        }
+        
+        .producto-descripcion {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        .producto-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .producto-features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .producto-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4f68c3;
+            font-weight: bold;
+        }
+        
+        .btn-seleccionar {
+            width: 100%;
+            padding: 0.8rem;
+            background: #4f68c3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        
+        .btn-seleccionar:hover {
+            background: #b367e5;
+        }
+        
+        .btn-seleccionar.activo {
+            background: #b367e5;
+        }
+        
+        .seccion-pago {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: 3rem;
+        }
+        
+        .seccion-pago h2 {
+            color: #4f68c3;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .producto-seleccionado {
+            background: #f0f0f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #4f68c3;
+        }
+        
+        .producto-seleccionado p {
+            margin: 0.5rem 0;
+        }
+        
+        .resumen-compra {
+            background: #f9f9f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid #ddd;
+        }
+        
+        .total-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 1rem 0;
+            border-top: 2px solid #ddd;
+            margin-top: 1rem;
+            color: #4f68c3;
+        }
+        
+        .metodos-pago {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .metodo-pago {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .metodo-pago:hover {
+            border-color: #b367e5;
+            background: #f9f9f9;
+        }
+        
+        .metodo-pago input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+        
+        .metodo-pago.seleccionado {
+            border-color: #4f68c3;
+            background: linear-gradient(135deg, #e8f4ff 0%, #f0e8ff 100%);
+            border: 2px solid #4f68c3;
+        }
+        
+        .icono-pago {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .metodo-pago h3 {
+            color: #4f68c3;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metodo-pago p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .detalles-pago {
+            background: #f9f9f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        
+        .detalles-pago.activo {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #4f68c3;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: Arial, sans-serif;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4f68c3;
+            box-shadow: 0 0 5px rgba(79, 104, 195, 0.3);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .btn-confirmar {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #4f68c3 0%, #b367e5 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .btn-confirmar:hover {
+            transform: scale(1.02);
+        }
+        
+        .btn-confirmar:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+        
+        .alerta {
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .alerta.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .alerta.exito {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .seccion-vacia {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #4f68c3 0%, #546cd8 100%);
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <h1>Geode Studio</h1>
+            <ul>
+                <li><a href="index.php">Inicio</a></li>
+                <li><a href="landingpage.html">Landing</a></li>
+                <li><a href="seleccion_productos.html">Productos</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>📦 Selecciona tu Suscripción</h1>
+        
+        <div id="alertaCompra" class="alerta"></div>
+
+        <!-- Sección Tutorial -->
+        <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-bottom: 3rem;">
+            <h2 style="color: #4f68c3; margin-bottom: 1.5rem; text-align: center;">📹 Tutorial - Cómo usar Geode Studio</h2>
+            <div style="position: relative; width: 100%; max-width: 800px; margin: 0 auto;">
+                <iframe width="100%" height="480" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Tutorial Geode Studio" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px;"></iframe>
+            </div>
+            <p style="text-align: center; color: #666; margin-top: 1rem;">Mira este video para aprender cómo usar todas las características de Geode Studio</p>
+        </div>
+
+        <div class="productos-grid" id="productosGrid">
+            <!-- Los productos se cargarán aquí con JavaScript -->
+        </div>
+
+        <div id="seccionPago" class="seccion-pago" style="display: none;">
+            <h2>💳 Información de Pago</h2>
+            
+            <div class="producto-seleccionado">
+                <p><strong>Producto seleccionado:</strong> <span id="productoSeleccionadoNombre">-</span></p>
+                <p><strong>Precio:</strong> $<span id="productoSeleccionadoPrecio">0</span></p>
+            </div>
+
+            <div class="resumen-compra">
+                <p><strong>Subtotal:</strong> $<span id="subtotal">0</span></p>
+                <p><strong>IVA (16%):</strong> $<span id="iva">0</span></p>
+                <div class="total-container">
+                    <span>Total a pagar:</span>
+                    <span>$<span id="total">0</span></span>
+                </div>
+            </div>
+
+            <h3 style="color: #4f68c3; margin-bottom: 1.5rem;">Selecciona tu método de pago:</h3>
+
+            <div class="metodos-pago" id="metodosPago">
+                <!-- Métodos de pago se cargarán aquí -->
+            </div>
+
+            <div id="detalleDebito" class="detalles-pago">
+                <h4 style="color: #4f68c3; margin-bottom: 1rem;">📊 Información Tarjeta de Débito</h4>
+                <div class="form-group">
+                    <label for="nombreTitularDebito">Nombre del Titular</label>
+                    <input type="text" id="nombreTitularDebito" placeholder="Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label for="numeroTarjetaDebito">Número de Tarjeta</label>
+                    <input type="text" id="numeroTarjetaDebito" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mesVencimientoDebito">Mes/Año</label>
+                        <input type="text" id="mesVencimientoDebito" placeholder="MM/AA" maxlength="5" inputmode="numeric">
+                    </div>
+                    <div class="form-group">
+                        <label for="cvvDebito">CVV</label>
+                        <input type="text" id="cvvDebito" placeholder="123" maxlength="3" inputmode="numeric">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="bancoDebito">Banco</label>
+                    <input type="text" id="bancoDebito" placeholder="Nombre del banco">
+                </div>
+            </div>
+
+            <div id="detalleCredito" class="detalles-pago">
+                <h4 style="color: #4f68c3; margin-bottom: 1rem;">💳 Información Tarjeta de Crédito</h4>
+                <div class="form-group">
+                    <label for="nombreTitularCredito">Nombre del Titular</label>
+                    <input type="text" id="nombreTitularCredito" placeholder="Juan Pérez">
+                </div>
+                <div class="form-group">
+                    <label for="numeroTarjetaCredito">Número de Tarjeta</label>
+                    <input type="text" id="numeroTarjetaCredito" placeholder="0000 0000 0000 0000" maxlength="19" inputmode="numeric">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mesVencimientoCredito">Mes/Año</label>
+                        <input type="text" id="mesVencimientoCredito" placeholder="MM/AA" maxlength="5" inputmode="numeric">
+                    </div>
+                    <div class="form-group">
+                        <label for="cvvCredito">CVV</label>
+                        <input type="text" id="cvvCredito" placeholder="123" maxlength="3" inputmode="numeric">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="cuotasCredito">Cuotas</label>
+                    <select id="cuotasCredito" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                        <option value="1">1 Cuota - Sin interés</option>
+                        <option value="3">3 Cuotas</option>
+                        <option value="6">6 Cuotas</option>
+                        <option value="12">12 Cuotas</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn-confirmar" id="btnConfirmar" onclick="confirmarPago()">Confirmar Compra</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Geode Studio. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        // Base de datos de productos
+        const productos = [
+            {
+                id: 1,
+                nombre: "Suscripción Estudiantes",
+                precio: 9.99,
+                descripcion: "Acceso especial para estudiantes",
+                features: ["Acceso a todos los proyectos", "Almacenamiento 50GB", "Soporte por email", "Certificado de finalización"]
+            },
+            {
+                id: 2,
+                nombre: "Suscripción Premium",
+                precio: 49.99,
+                descripcion: "Acceso completo a todas las características",
+                features: ["Almacenamiento ilimitado", "Proyectos sin límite", "Soporte prioritario 24/7", "Exportación avanzada"]
+            }
+        ];
+
+        // Métodos de pago
+        const metodosPagoData = [
+            {
+                id: "debito",
+                nombre: "Tarjeta de Débito",
+                icono: "🏧",
+                descripcion: "Pago directo de tu cuenta bancaria"
+            },
+            {
+                id: "credito",
+                nombre: "Tarjeta de Crédito",
+                icono: "💳",
+                descripcion: "Flexible con múltiples cuotas"
+            }
+        ];
+
+        let productoSeleccionado = null;
+        let metodoPagoSeleccionado = null;
+
+        // Inicializar la página
+        function inicializar() {
+            cargarProductos();
+        }
+
+        // Cargar productos
+        function cargarProductos() {
+            const grid = document.getElementById('productosGrid');
+            grid.innerHTML = '';
+
+            productos.forEach(producto => {
+                const card = document.createElement('div');
+                card.className = 'producto-card';
+                
+                const features = producto.features.map(f => `<li>${f}</li>`).join('');
+                
+                card.innerHTML = `
+                    <div class="producto-header">
+                        <h3>${producto.nombre}</h3>
+                        <div class="producto-precio">$${producto.precio}</div>
+                    </div>
+                    <div class="producto-body">
+                        <p class="producto-descripcion">${producto.descripcion}</p>
+                        <ul class="producto-features">
+                            ${features}
+                        </ul>
+                        <button class="btn-seleccionar" onclick="seleccionarProducto(${producto.id})">
+                            Seleccionar
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // Seleccionar producto
+        function seleccionarProducto(id) {
+            productoSeleccionado = productos.find(p => p.id === id);
+            
+            // Actualizar UI
+            document.querySelectorAll('.producto-card').forEach((card, index) => {
+                if (productos[index].id === id) {
+                    card.classList.add('seleccionado');
+                    card.querySelector('.btn-seleccionar').classList.add('activo');
+                    card.querySelector('.btn-seleccionar').textContent = '✓ Seleccionado';
+                } else {
+                    card.classList.remove('seleccionado');
+                    card.querySelector('.btn-seleccionar').classList.remove('activo');
+                    card.querySelector('.btn-seleccionar').textContent = 'Seleccionar';
+                }
+            });
+
+            // Mostrar sección de pago
+            mostrarSeccionPago();
+        }
+
+        // Mostrar sección de pago
+        function mostrarSeccionPago() {
+            document.getElementById('seccionPago').style.display = 'block';
+            document.getElementById('productoSeleccionadoNombre').textContent = productoSeleccionado.nombre;
+            document.getElementById('productoSeleccionadoPrecio').textContent = productoSeleccionado.precio.toFixed(2);
+            
+            calcularTotales();
+            cargarMetodosPago();
+            
+            // Scroll a la sección de pago
+            document.getElementById('seccionPago').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Calcular totales
+        function calcularTotales() {
+            const subtotal = productoSeleccionado.precio;
+            const iva = subtotal * 0.16;
+            const total = subtotal + iva;
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('iva').textContent = iva.toFixed(2);
+            document.getElementById('total').textContent = total.toFixed(2);
+        }
+
+        // Cargar métodos de pago
+        function cargarMetodosPago() {
+            const container = document.getElementById('metodosPago');
+            container.innerHTML = '';
+
+            metodosPagoData.forEach(metodo => {
+                const div = document.createElement('div');
+                div.className = 'metodo-pago';
+                
+                div.innerHTML = `
+                    <label style="cursor: pointer;">
+                        <input type="radio" name="metodo-pago" value="${metodo.id}" onchange="seleccionarMetodoPago('${metodo.id}')">
+                        <div class="icono-pago">${metodo.icono}</div>
+                        <h3>${metodo.nombre}</h3>
+                        <p>${metodo.descripcion}</p>
+                    </label>
+                `;
+
+                container.appendChild(div);
+            });
+        }
+
+        // Seleccionar método de pago
+        function seleccionarMetodoPago(metodo) {
+            metodoPagoSeleccionado = metodo;
+
+            // Actualizar UI
+            document.querySelectorAll('.metodo-pago').forEach(metodo_div => {
+                const radio = metodo_div.querySelector('input[type="radio"]');
+                if (radio.value === metodo) {
+                    metodo_div.classList.add('seleccionado');
+                } else {
+                    metodo_div.classList.remove('seleccionado');
+                }
+            });
+
+            // Mostrar detalles correspondientes
+            document.getElementById('detalleDebito').classList.remove('activo');
+            document.getElementById('detalleCredito').classList.remove('activo');
+
+            if (metodo === 'debito') {
+                document.getElementById('detalleDebito').classList.add('activo');
+            } else if (metodo === 'credito') {
+                document.getElementById('detalleCredito').classList.add('activo');
+            }
+
+            // Limpiar alerta
+            limpiarAlerta();
+        }
+
+        // Confirmar pago
+        function confirmarPago() {
+            if (!productoSeleccionado) {
+                mostrarAlerta('Por favor selecciona un producto', 'error');
+                return;
+            }
+
+            if (!metodoPagoSeleccionado) {
+                mostrarAlerta('Por favor selecciona un método de pago', 'error');
+                return;
+            }
+
+            let datosValidos = false;
+
+            if (metodoPagoSeleccionado === 'debito') {
+                const nombreTitular = document.getElementById('numeroTarjetaDebito').value.trim();
+                const numeroTarjeta = document.getElementById('numeroTarjetaDebito').value.trim();
+                const mesVencimiento = document.getElementById('mesVencimientoDebito').value.trim();
+                const cvv = document.getElementById('cvvDebito').value.trim();
+
+                if (!nombreTitular || !numeroTarjeta || !mesVencimiento || !cvv) {
+                    mostrarAlerta('Por favor completa todos los campos de la tarjeta de débito', 'error');
+                    return;
+                }
+
+                if (numeroTarjeta.length < 13) {
+                    mostrarAlerta('El número de tarjeta no es válido', 'error');
+                    return;
+                }
+
+                datosValidos = true;
+            } else if (metodoPagoSeleccionado === 'credito') {
+                const nombreTitular = document.getElementById('nombreTitularCredito').value.trim();
+                const numeroTarjeta = document.getElementById('numeroTarjetaCredito').value.trim();
+                const mesVencimiento = document.getElementById('mesVencimientoCredito').value.trim();
+                const cvv = document.getElementById('cvvCredito').value.trim();
+
+                if (!nombreTitular || !numeroTarjeta || !mesVencimiento || !cvv) {
+                    mostrarAlerta('Por favor completa todos los campos de la tarjeta de crédito', 'error');
+                    return;
+                }
+
+                if (numeroTarjeta.length < 13) {
+                    mostrarAlerta('El número de tarjeta no es válido', 'error');
+                    return;
+                }
+
+                datosValidos = true;
+            }
+
+            if (datosValidos) {
+                const total = document.getElementById('total').textContent;
+                mostrarAlerta(`¡Compra realizada exitosamente! Total: $${total} con ${metodoPagoSeleccionado === 'debito' ? 'Tarjeta de Débito' : 'Tarjeta de Crédito'}`, 'exito');
+
+                // Aquí se podría enviar los datos a un servidor
+                console.log({
+                    producto: productoSeleccionado.nombre,
+                    metodoPago: metodoPagoSeleccionado,
+                    total: total
+                });
+
+                // Limpiar formulario después de 2 segundos
+                setTimeout(() => {
+                    limpiarFormulario();
+                }, 2000);
+            }
+        }
+
+        // Mostrar alerta
+        function mostrarAlerta(mensaje, tipo) {
+            const alerta = document.getElementById('alertaCompra');
+            alerta.textContent = mensaje;
+            alerta.className = `alerta ${tipo}`;
+            alerta.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Limpiar alerta
+        function limpiarAlerta() {
+            const alerta = document.getElementById('alertaCompra');
+            alerta.className = 'alerta';
+            alerta.textContent = '';
+        }
+
+        // Limpiar formulario
+        function limpiarFormulario() {
+            productoSeleccionado = null;
+            metodoPagoSeleccionado = null;
+
+            document.getElementById('seccionPago').style.display = 'none';
+            document.querySelectorAll('.producto-card').forEach(card => {
+                card.classList.remove('seleccionado');
+                card.querySelector('.btn-seleccionar').classList.remove('activo');
+                card.querySelector('.btn-seleccionar').textContent = 'Seleccionar';
+            });
+
+            // Limpiar campos
+            document.querySelectorAll('input[type="text"], input[type="email"]').forEach(input => {
+                input.value = '';
+            });
+
+            limpiarAlerta();
+            cargarProductos();
+        }
+
+        // Inicializar la página cuando carga
+        window.addEventListener('DOMContentLoaded', inicializar);
+
+        // Formatear números de tarjeta
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('tarjeta-input')) {
+                let value = e.target.value.replace(/\s/g, '');
+                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+                e.target.value = formattedValue;
+            }
+        });
+    </script>
+</body>
+</html>
