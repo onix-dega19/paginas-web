@@ -1,8 +1,8 @@
 <?php
 $server = "localhost";
-    $user = "root";
+ $user = "root";
     $pass = "";
-    $bd = "mipagina";
+$bd = "mipagina";
 
     //$server = "sql302.infinityfree.com";
     //$user = "if0_40970312";

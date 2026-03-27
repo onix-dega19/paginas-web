@@ -2,27 +2,26 @@
 session_start();
 
 // Verificar que el usuario esté autenticado
-if (!isset($_SESSION['usuario_id'])) {
-    header('Location: ../login.php');
+if (!isset($_SESSION['usuario'])) {
+    header('Location: ../index.php');
     exit;
 }
 
 // Incluir conexión a la base de datos
-require_once '../config/conexion.php';
+require_once '../lib/conn.php';
 
-$mensaje = '';
-$tipo_mensaje = '';
-$usuario = null;
 
 // Obtener datos del usuario
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
-    $id = $_GET['id'];
-    $stmt = $conexion->prepare("SELECT id, nombre, email, es_admin FROM usuarios WHERE id = ?");
-    $stmt->bind_param('i', $id);
+
+    $stmt = $conexion->prepare("SELECT * FROM usuario WHERE id = ?");
+    $stmt->bind_param('i', $usuario_id);
     $stmt->execute();
-    $resultado = $stmt->get_result();
-    $usuario = $resultado->fetch_assoc();
-    $stmt->close();
+    $result = $stmt->get_result();
+    $usuario = $result->fetch_assoc();
+
+if (!$usuario){
+header('Location: index.php');
+exit;
 }
 
 // Procesar formulario de actualización
@@ -101,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <?php if ($usuario): ?>
-            <form method="POST" class="formulario">
+            <form method="POST" action = "update.php">
                 <input type="hidden" name="id" value="<?php echo $usuario['id']; ?>">
 
                 <div>

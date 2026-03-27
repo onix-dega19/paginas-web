@@ -6,7 +6,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empresa Dashboard</title>
+    <title>mi sistema</title>
     <style>
         * {
             margin: 0;
@@ -103,34 +103,24 @@ session_start();
     </style>
 </head>
 <body>
-    <header>
-        <h1>Empresa Dashboard</h1>
-        <button class="login-btn" onclick="location.href='login2.html'">Login</button>
-    </header>
+    <?php
+    include ('templates/header.php')
+    ?>
+    
     
     <div class="container">
-        <aside class="sidebar">
-            <nav>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#reportes">Reportes</a></li>
-                    <li><a href="#usuarios">Usuarios</a></li>
-                    <li><a href="#configuracion">Configuración</a></li>
-                    <li><a href="#ayuda">Ayuda</a></li>
-                </ul>
-            </nav>
-        </aside>
-        
+        <?php
+    include ('templates/sidebar.php')
+    ?>
         <main class="main-content">
             <div class="content-box">
-                <h2>Bienvenido al Dashboard</h2>
+                <h2>Bienvenido a la vista de plantilla</h2>
                 <p>Selecciona una opción del menú lateral para comenzar.</p>
             </div>
         </main>
     </div>
-    
-    <footer>
-        <p>&copy; 2024 Empresa. Todos los derechos reservados.</p>
-    </footer>
+     <?php
+    include ('templates/footer.php')
+    ?>
 </body>
 </html>
